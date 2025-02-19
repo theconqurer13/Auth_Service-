@@ -2,7 +2,7 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const UserRepository = require('../repository/user-repo');
-const {JWT_JEY} = require('../config/config');
+const {JWT_KEY} = require('../config/config');
 class  UserService{
     constructor(){
         this.userRepository = new UserRepository();
@@ -37,9 +37,32 @@ class  UserService{
         }
     }
 
+    async signIn(email,plainPassword){
+        try {
+            // fetch the user using email
+            const user = await this.userRepository.getByEmail(email);
+            // compare incoming plain passwrod with encrypted passwrd
+
+            const passwordMatch = this.checkPassword(plainPassword,user.password);
+            if(!passwordMatch){
+                console.log("password doesnt match");
+                throw{error:'incorrect passwrod'}
+            }
+            // if password match then create token and return
+            const newJWT = this.createToken({email:user.email,id:user.id});
+            return newJWT;
+        } catch (error) {
+            console.log("something went wrong in sign fn",error);
+            throw {error};
+        }
+    }
+
+
+
     verifyToken(token){
         try {
             const response = jwt.verify(token,JWT_KEY);
+            return response;
         } catch (error) {
             console.log("err at token verification",error);
             throw{error};
