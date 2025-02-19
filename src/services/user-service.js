@@ -2,7 +2,7 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const UserRepository = require('../repository/user-repo');
-const {JWT_KEY} = require('../config/config');
+const {JWT_KEY} = require('../config/server-config');
 class  UserService{
     constructor(){
         this.userRepository = new UserRepository();
@@ -29,7 +29,7 @@ class  UserService{
     }
      createToken(user){
         try {
-            const result = jwt.sign(user,JWT_JEY,{expiresIn:'1h'});
+            const result = jwt.sign(user,JWT_KEY,{expiresIn:'1h'});
             return result; 
         } catch (error) {
             console.log("err at token creation",error);
