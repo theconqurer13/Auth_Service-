@@ -1,7 +1,11 @@
 const UserService = require('../services/user-service');
+const {User} = require('../models/index'); 
 const userService = new UserService();
-const create = async(req,res)=>{
+
+const create = async(req, res) =>{
     try {
+        console.log("user, ", User);
+            console.log("-------------------------------------------------")
          const response = await userService.create({
             email:req.body.email,
             password:req.body.password

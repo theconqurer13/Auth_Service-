@@ -1,9 +1,11 @@
-const {User} = require('../models/user'); 
+const {User} = require('../models/index'); 
 
 class UserRepository{
     async create(data){
         try {
-            const user =  await User.create(data);
+            console.log("user, ", User);
+            console.log("-------------------------------------------------")
+            const user = await User.create(data);
             return user;
         } catch (error) {
             console.log("err at repo lvl ", error);
