@@ -74,6 +74,14 @@ class  UserService{
         }
     }
 
+     isAdmin(userId){
+        try {
+           return  this.userRepository.isAdmin(userId); 
+        } catch (error) {
+            console.log("something went wrong at service  lvl");
+            throw {error}
+        }
+    }
 
     verifyToken(token){
         try {
