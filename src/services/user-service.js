@@ -13,8 +13,11 @@ class  UserService{
             return user;
             
         } catch (error) {
+            if(error.name == 'SequelizeValidationError '){
+                throw error;
+            }
             console.log("err at service lvl",error);
-            throw {error};
+            
         }
     }
     async delete(data){
